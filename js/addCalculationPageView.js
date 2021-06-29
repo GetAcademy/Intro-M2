@@ -1,13 +1,4 @@
 function updateViewAddCalculationPage() {
-    let selectedPlus = '';
-    let selectedMinus = '';
-    let selectedMultiply = '';
-    let selectedDivide = '';
-    if (model.inputs.addCalculation.operation == '+') selectedPlus = 'selected';
-    else if (model.inputs.addCalculation.operation == '-') selectedMinus = 'selected';
-    else if (model.inputs.addCalculation.operation == '*') selectedMultiply = 'selected';
-    else if (model.inputs.addCalculation.operation == '/') selectedDivide = 'selected';
-
     const pageInputs = model.inputs.addCalculation;
     document.getElementById('app').innerHTML = /*html*/ `
     
@@ -16,10 +7,10 @@ function updateViewAddCalculationPage() {
        <h3>Dette er siden for å legge til nye kalkulasjoner.</h3>
 
        <select onchange="model.inputs.addCalculation.operation=this.value">
-          <option ${selectedPlus}>+</option>
-          <option ${selectedMinus}>-</option>
-          <option ${selectedMultiply}>*</option>
-          <option ${selectedDivide}>/</option>
+          <option ${getSelected('+')}>+</option>
+          <option ${getSelected('-')}>-</option>
+          <option ${getSelected('*')}>*</option>
+          <option ${getSelected('/')}>/</option>
        </select>
        <input 
             type="number"             
@@ -27,8 +18,17 @@ function updateViewAddCalculationPage() {
             value="${pageInputs.number || ''}" 
         />
         <!-- alternativt: oninput="setNumber(this.valueAsNumber)" -->
-        <br/><input type="checkbox"/> Uthevet
-       <br/><button>Legg til</button>
-    
+        <!-- <br/><input type="checkbox"/> Uthevet -->
+        ${getCheckboxHtml()}
+       <br/><button onclick="addNumberAndOperation()">Legg til</button>
     `;
+}
+
+function getSelected(operation) {
+    return model.inputs.addCalculation.operation == operation ? 'selected' : '';
+}
+
+function getCheckboxHtml() {
+    const cssClass = model.inputs.addCalculation.isHighlight ? 'chkTrue' : 'chkFalse';
+    return `<div onclick="toggleHighlight()" class="${cssClass}"></div>`;
 }

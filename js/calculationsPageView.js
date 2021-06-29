@@ -13,7 +13,7 @@ function createCalculationsHtml() {
     let calculationsHtml = '';
     for (let calculation of model.calculations) {
         calculationsHtml += `
-            <li>
+            <li class="${calculation.isHighlight ? 'highlight' : ''}">
                 ${calculation.mathOperation} 
                 ${calculation.number} 
             </li>
